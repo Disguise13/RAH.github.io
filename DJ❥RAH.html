@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>DJ❥RAH </title>
+    <style>
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+        }
+
+        /* 主霓虹文字 */
+        .neon-text {
+            position: relative;
+            color: transparent;
+            font-size: 2.5em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            animation: float 3s ease-in-out infinite;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b, #ff0000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(255,107,107,0.5),
+                       0 0 20px rgba(255,107,107,0.5),
+                       0 0 30px rgba(255,107,107,0.5);
+        }
+
+        /* 日期霓虹文字 */
+        .neon-date {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: transparent;
+            /* 修改后的字体大小 */
+            font-size: 1.5em; 
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #00ffff, #00ff88, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 10px rgba(0,255,255,0.5),
+                       0 0 20px rgba(0,255,255,0.5),
+                       0 0 30px rgba(0,255,255,0.5);
+            animation: neonPulse 1.5s ease-in-out infinite;
+        }
+
+        /* 心脏样式 */
+        .heart {
+            position: relative;
+            width: 120px;
+            height: 108px;
+            animation: heartbeat 1.2s infinite;
+            filter: drop-shadow(0 0 20px rgba(255,0,0,0.4));
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 62px;
+            height: 96px;
+            border-radius: 60px 60px 0 0;
+            background: linear-gradient(45deg, #ff0033, #ff3366);
+            box-shadow: 0 0 40px rgba(255,0,51,0.3);
+        }
+
+        .heart::before {
+            left: 60px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,107,107,0.6);
+            border-radius: 50%;
+            animation: particle 2s infinite;
+        }
+
+        /* 动画定义 */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(0,255,255,0.8); }
+        }
+
+        @keyframes particle {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="neon-text">DJ❥RAH</div>
+        <div id="countdown" class="neon-date"></div>
+        <div class="heart"></div>
+        <div class="particles"></div>
+    </div>
+
+    <script>
+        // 粒子生成函数
+        function createParticles() {
+            const particles = document.querySelector('.particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = 
+                    Math.random() * 4 + 2 + 'px';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // 日期计算函数
+        function calculateDays() {
+            const targetDate = new Date(2025, 3, 6); // 注意月份从0开始
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const diff = targetDate - today;
+            return Math.floor(diff / (1000 * 60 * 60 * 24));
+        }
+
+        // 更新倒计时显示
+        function updateCountdown() {
+            const days = calculateDays();
+            const countdownText = days >= 0 
+                ? `${days} DAYS TO THE EVENT` 
+                : ` STARTED ${Math.abs(days)} DAYS AGO`;
+            document.getElementById('countdown').textContent = countdownText;
+        }
+
+        // 初始化
+        function init() {
+            createParticles();
+            updateCountdown();
+            setInterval(updateCountdown, 300000); // 每5分钟更新一次
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
+    
