@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自然辩证法复习助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <div class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+            <p class="text-sm">作者: DJ</p>
+            <p class="text-sm">微信: <a href="weixin://addfriend/jiadujin" class="text-blue-300 hover:underline">jiadujin</a></p>
+        </div>
+    
+    <script>
+        // 复习数据 - 自然辩证法选择题配对
+        const reviewData = [
+            {"question": "恩格斯", "answer": "自然辩证法", "notes": "未完成的遗稿 "},
+            {"question": "十九世纪自然科学三大发现", "answer": "能量守恒与转化定律、细胞学说、生物进化论", "notes": ""},
+            {"question": "焦耳、迈尔", "answer": "能量守恒与转化定律", "notes": ""},
+            {"question": "施莱登、施旺", "answer": "细胞学说", "notes": ""},
+            {"question": "达尔文", "answer": "生物进化论", "notes": ""},
+            {"question": "康德、黑格尔", "answer": "德国古典哲学", "notes": "反对形而上学，打开缺口，但是唯心主义 "},
+            {"question": "马克思、恩格斯", "answer": "《数学手稿》、《反杜林论》、《机器自然力和科学的应用》", "notes": ""},
+            {"question": "列宁", "answer": "《唯物主义和经验批判主义》", "notes": ""},
+            {"question": "泰勒斯", "answer": "水-本原", "notes": ""},
+            {"question": "阿那克西米尼", "answer": "气-本原", "notes": ""},
+            {"question": "赫拉克利特", "answer": "火-本原、一切皆流", "notes": ""},
+            {"question": "德谟克利特", "answer": "原子论", "notes": ""},
+            {"question": "毕达哥拉斯", "answer": "数-本原", "notes": ""},
+            {"question": "柏拉图", "answer": "理念论", "notes": ""},
+            {"question": "亚里士多德", "answer": "四因说（质料因、形式因、动力因、目的因）", "notes": ""},
+            {"question": "亚里士多德", "answer": "《物理学》", "notes": ""},
+            {"question": "亚里士多德", "answer": "自然哲学", "notes": ""},
+            {"question": "哥白尼", "answer": "日心说", "notes": ""},
+            {"question": "布鲁诺", "answer": "宇宙无限论", "notes": ""},
+            {"question": "开普勒", "answer": "行星运动三定律", "notes": ""},
+            {"question": "伽利略", "answer": "惯性原理", "notes": ""},
+            {"question": "牛顿", "answer": "经典力学体系", "notes": ""},
+            {"question": "牛顿", "answer": "绝对时空观", "notes": ""},
+            {"question": "拉普拉斯", "answer": "决定论", "notes": ""},
+            {"question": "林耐", "answer": "物种不变论", "notes": "自然界绝对不变，物质运动遵循因果，形而上学 "},
+            {"question": "康德", "answer": "星云假说", "notes": ""},
+            {"question": "赖尔", "answer": "地质渐变论", "notes": ""},
+            {"question": "维勒", "answer": "人工合成尿素", "notes": ""},
+            {"question": "门捷列夫", "answer": "元素周期律", "notes": ""},
+            {"question": "麦克斯韦", "answer": "电磁理论", "notes": ""},
+            {"question": "伦琴", "answer": "X射线", "notes": ""},
+            {"question": "居里夫人", "answer": "放射性", "notes": ""},
+            {"question": "普朗克", "answer": "量子假说", "notes": ""},
+            {"question": "爱因斯坦", "answer": "相对论", "notes": ""},
+            {"question": "玻尔", "answer": "互补原理", "notes": ""},
+            {"question": "海森堡", "answer": "测不准原理", "notes": ""},
+            {"question": "玻恩", "answer": "波函数的概率解释", "notes": ""},
+            {"question": "薛定谔", "answer": "薛定谔方程", "notes": ""},
+            {"question": "狄拉克", "answer": "相对论量子力学", "notes": ""},
+            {"question": "卢瑟福", "answer": "原子核式结构模型", "notes": ""},
+            {"question": "查德威克", "answer": "发现中子", "notes": ""},
+            {"question": "哈勃", "answer": "宇宙膨胀理论", "notes": ""},
+            {"question": "伽莫夫", "answer": "大爆炸宇宙论", "notes": ""},
+            {"question": "魏格纳", "answer": "大陆漂移说", "notes": ""},
+            {"question": "赫歇尔", "answer": "发现天王星", "notes": ""},
+            {"question": "汤姆逊", "answer": "发现电子", "notes": ""},
+            {"question": "贝克勒尔", "answer": "发现天然放射性", "notes": ""},
+            {"question": "费米", "answer": "核反应堆", "notes": ""},
+            {"question": "奥本海默", "answer": "曼哈顿计划", "notes": ""},
+            {"question": "霍金", "answer": "黑洞理论", "notes": ""},
+            {"question": "道尔顿", "answer": "近代原子论", "notes": ""},
+            {"question": "阿伏伽德罗", "answer": "分子学说", "notes": ""},
+            {"question": "法拉第", "answer": "电磁感应定律", "notes": ""},
+            {"question": "焦耳", "answer": "热功当量", "notes": ""},
+            {"question": "克劳修斯", "answer": "热力学第二定律", "notes": ""},
+            {"question": "开尔文", "answer": "热力学温标", "notes": ""},
+            {"question": "吉布斯", "answer": "化学热力学", "notes": ""},
+            {"question": "范托夫", "answer": "物理化学", "notes": ""},
+            {"question": "阿伦尼乌斯", "answer": "电离理论", "notes": ""},
+            {"question": "汤姆逊", "answer": "葡萄干面包模型", "notes": ""},
+            {"question": "密立根", "answer": "油滴实验", "notes": ""},
+            {"question": "卢瑟福", "answer": "α粒子散射实验", "notes": ""},
+            {"question": "玻尔", "answer": "原子模型", "notes": ""},
+            {"question": "德布罗意", "answer": "物质波理论", "notes": ""},
+            {"question": "康普顿", "answer": "康普顿效应", "notes": ""},
+            {"question": "泡利", "answer": "泡利不相容原理", "notes": ""},
+            {"question": "费米-狄拉克", "answer": "费米-狄拉克统计", "notes": ""},
+            {"question": "玻色-爱因斯坦", "answer": "玻色-爱因斯坦统计", "notes": ""},
+            {"question": "居里夫人", "answer": "镭和钋", "notes": ""},
+            {"question": "卢瑟福", "answer": "人工核反应", "notes": ""},
+            {"question": "查德威克", "answer": "中子", "notes": ""},
+            {"question": "哈恩、斯特拉斯曼", "answer": "核裂变", "notes": ""},
+            {"question": "迈特纳、弗里施", "answer": "解释核裂变", "notes": ""},
+            {"question": "费米", "answer": "链式反应", "notes": ""},
+            {"question": "爱因斯坦", "answer": "质能方程", "notes": ""},
+            {"question": "奥本海默", "answer": "原子弹", "notes": ""},
+            {"question": "泰勒", "answer": "氢弹", "notes": ""},
+            {"question": "杨振宁、李政道", "answer": "弱相互作用下宇称不守恒", "notes": ""},
+            {"question": "吴健雄", "answer": "实验验证宇称不守恒", "notes": ""},
+            {"question": "盖尔曼", "answer": "夸克模型", "notes": ""},
+            {"question": "格拉肖、萨拉姆、温伯格", "answer": "电弱统一理论", "notes": ""},
+            {"question": "霍金", "answer": "霍金辐射", "notes": ""},
+            {"question": "彭罗斯", "answer": "黑洞奇点定理", "notes": ""},
+            {"question": "朗道", "answer": "凝聚态物理", "notes": ""},
+            {"question": "巴丁、库珀、施里弗", "answer": "BCS理论", "notes": ""},
+            {"question": "约瑟夫森", "answer": "约瑟夫森效应", "notes": ""},
+            {"question": "高锟", "answer": "光纤通信", "notes": ""},
+            {"question": "肖克利、巴丁、布拉顿", "answer": "晶体管", "notes": ""},
+            {"question": "摩尔", "answer": "摩尔定律", "notes": ""},
+            {"question": "图灵", "answer": "图灵机", "notes": ""},
+            {"question": "冯·诺依曼", "answer": "冯·诺依曼体系", "notes": ""},
+            {"question": "香农", "answer": "信息论", "notes": ""},
+            {"question": "维纳", "answer": "控制论", "notes": ""},
+            {"question": "贝塔朗菲", "answer": "一般系统论", "notes": ""},
+            {"question": "普利高津", "answer": "耗散结构理论", "notes": ""},
+            {"question": "哈肯", "answer": "协同学", "notes": ""},
+            {"question": "艾根", "answer": "超循环理论", "notes": ""},
+            {"question": "洛伦兹", "answer": "混沌理论", "notes": ""},
+            {"question": "曼德布罗特", "answer": "分形几何", "notes": ""},
+            {"question": "达尔文", "answer": "《物种起源》", "notes": ""},
+            {"question": "孟德尔", "answer": "遗传定律", "notes": ""},
+            {"question": "摩尔根", "answer": "基因学说", "notes": ""},
+            {"question": "沃森、克里克", "answer": "DNA双螺旋结构", "notes": ""},
+            {"question": "尼伦伯格、马太", "answer": "遗传密码", "notes": ""},
+            {"question": "穆利斯", "answer": "PCR技术", "notes": ""},
+            {"question": "伯格", "answer": "重组DNA技术", "notes": ""},
+            {"question": "多利羊", "answer": "动物克隆", "notes": ""},
+            {"question": "人类基因组计划", "answer": "基因测序", "notes": ""},
+            {"question": "达尔文", "answer": "自然选择学说", "notes": ""},
+            {"question": "拉马克", "answer": "用进废退、获得性遗传", "notes": ""},
+            {"question": "华莱士", "answer": "自然选择学说（与达尔文同时提出）", "notes": ""},
+            {"question": "赫胥黎", "answer": "《天演论》（严复译）", "notes": ""},
+            {"question": "居维叶", "answer": "灾变论", "notes": ""},
+            {"question": "赖尔", "answer": "《地质学原理》", "notes": ""},
+            {"question": "施莱登、施旺", "answer": "细胞学说", "notes": ""},
+            {"question": "巴斯德", "answer": "微生物学", "notes": ""},
+            {"question": "科赫", "answer": "细菌学", "notes": ""},
+            {"question": "弗莱明", "answer": "青霉素", "notes": ""},
+            {"question": "瓦克斯曼", "answer": "链霉素", "notes": ""},
+            {"question": "艾弗里", "answer": "证明DNA是遗传物质", "notes": ""},
+            {"question": "赫尔希、蔡斯", "answer": "噬菌体实验", "notes": ""},
+            {"question": "莫诺、雅各布", "answer": "操纵子理论", "notes": ""},
+            {"question": "克里克", "answer": "中心法则", "notes": ""},
+            {"question": "布伦纳", "answer": "mRNA", "notes": ""},
+            {"question": "科恩伯格", "answer": "DNA聚合酶", "notes": ""},
+            {"question": "奥尔特曼、切赫", "answer": "核酶", "notes": ""},
+            {"question": "麦克林托克", "answer": "转座子", "notes": ""},
+            {"question": "夏普、罗伯茨", "answer": "RNA剪接", "notes": ""},
+            {"question": "奥特曼", "answer": "端粒酶", "notes": ""},
+            {"question": "金、斯图尔特", "answer": "RNA干扰", "notes": ""},
+            {"question": "文特尔", "answer": "人类基因组计划（私人）", "notes": ""},
+            {"question": "山中伸弥", "answer": "iPS细胞", "notes": ""},
+            {"question": "威尔穆特", "answer": "克隆羊多利", "notes": ""},
+            {"question": "萨顿、鲍维里", "answer": "染色体遗传理论", "notes": ""},
+            {"question": "贝特森", "answer": "遗传学", "notes": ""},
+            {"question": "约翰森", "answer": "基因", "notes": ""},
+            {"question": "斯特蒂文特", "answer": "基因图谱", "notes": ""},
+            {"question": "缪勒", "answer": "X射线诱变", "notes": ""},
+            {"question": "比德尔、塔特姆", "answer": "一个基因一个酶", "notes": ""},
+            {"question": "莱德伯格", "answer": "细菌接合", "notes": ""},
+            {"question": "莫诺", "answer": "乳糖操纵子", "notes": ""},
+            {"question": "雅各布", "answer": "信使RNA", "notes": ""},
+            {"question": "尼伦伯格", "answer": "破译遗传密码", "notes": ""},
+            {"question": "霍利", "answer": "tRNA结构", "notes": ""},
+            {"question": "科拉纳", "answer": "合成基因", "notes": ""},
+            {"question": "阿尔伯、内森斯、史密斯", "answer": "限制性内切酶", "notes": ""},
+            {"question": "博耶、科恩", "answer": "基因克隆", "notes": ""},
+            {"question": "桑格", "answer": "DNA测序", "notes": ""},
+            {"question": "穆利斯", "answer": "聚合酶链式反应", "notes": ""},
+            {"question": "卡佩奇、史密斯、埃文斯", "answer": "基因敲除", "notes": ""},
+            {"question": "丘奇、文特尔", "answer": "合成生物学", "notes": ""},
+            {"question": "诺奖获得者", "answer": "人体试验最重要最基本的文献", "notes": ""},
+            {"question": "《赫尔辛基宣言》", "answer": "涉及人类受试者的医学研究的伦理原则", "notes": ""},
+            {"question": "《纽伦堡法典》", "answer": "人体实验的基本原则", "notes": ""},
+            {"question": "生命伦理四原则", "answer": "尊重自主、不伤害、有利、公正", "notes": ""},
+            {"question": "科学共同体", "answer": "科学家群体形成的专业组织", "notes": "默顿 "},
+            {"question": "科学规范", "answer": "普遍性、公有性、无私利性、有条理的怀疑主义", "notes": "默顿规范 "},
+            {"question": "科学革命", "answer": "范式转换", "notes": "库恩 "},
+            {"question": "科学发展模式", "answer": "前科学-常规科学-危机-革命-新常规科学", "notes": "库恩 "},
+            {"question": "证伪主义", "answer": "科学理论不能被证实，只能被证伪", "notes": "波普尔 "},
+            {"question": "科学研究纲领", "answer": "硬核、保护带、正面启发法、反面启发法", "notes": "拉卡托斯 "},
+            {"question": "科学的社会建构", "answer": "科学知识是社会建构的产物", "notes": "SSK "},
+            {"question": "技术决定论", "answer": "技术是社会发展的决定性因素", "notes": ""},
+            {"question": "社会决定论", "answer": "社会因素决定技术发展", "notes": ""},
+            {"question": "技术自主论", "answer": "技术有自身发展的逻辑和动力", "notes": ""},
+            {"question": "技术评估", "answer": "对技术的社会影响进行全面评价", "notes": ""},
+            {"question": "可持续发展", "answer": "满足当代人需求，不损害后代人满足其需求的能力", "notes": ""},
+            {"question": "生态伦理", "answer": "人类对自然环境的道德责任", "notes": ""},
+            {"question": "科学素养", "answer": "理解科学知识、科学方法、科学精神的能力", "notes": ""},
+            {"question": "科学精神", "answer": "求实、创新、怀疑、批判、合作、奉献", "notes": ""},
+            {"question": "科学方法", "answer": "观察、假设、实验、验证、理论", "notes": ""},
+            {"question": "归纳法", "answer": "从个别到一般的推理方法", "notes": ""},
+            {"question": "演绎法", "answer": "从一般到个别的推理方法", "notes": ""},
+            {"question": "类比法", "answer": "根据两个对象的相似性进行推理", "notes": ""},
+            {"question": "科学实验", "answer": "在控制条件下研究自然现象的方法", "notes": ""},
+            {"question": "思想实验", "answer": "在头脑中进行的实验", "notes": ""},
+            {"question": "理想模型", "answer": "对研究对象的简化和抽象", "notes": ""},
+            {"question": "科学理论", "answer": "系统化的科学知识体系", "notes": ""},
+            {"question": "科学假说", "answer": "对自然现象的试探性解释", "notes": ""},
+            {"question": "科学事实", "answer": "通过观察和实验获得的经验事实", "notes": ""},
+            {"question": "科学定律", "answer": "描述自然现象之间必然联系的规律", "notes": ""},
+            {"question": "科学概念", "answer": "对事物本质属性的概括", "notes": ""},
+            {"question": "科学符号", "answer": "表示科学概念的标记", "notes": ""},
+            {"question": "科学语言", "answer": "科学交流的工具", "notes": ""},
+            {"question": "科学思维", "answer": "运用科学方法进行的思维活动", "notes": ""},
+            {"question": "创造性思维", "answer": "产生新思想、新观点的思维方式", "notes": ""},
+            {"question": "逻辑思维", "answer": "遵循逻辑规则的思维方式", "notes": ""},
+            {"question": "形象思维", "answer": "运用形象进行的思维活动", "notes": ""},
+            {"question": "直觉思维", "answer": "直接领悟事物本质的思维方式", "notes": ""},
+            {"question": "灵感", "answer": "突然产生的创造性思想", "notes": ""},
+            {"question": "科学发现", "answer": "揭示新的科学事实或规律", "notes": ""},
+            {"question": "技术发明", "answer": "创造新的技术装置或方法", "notes": ""},
+            {"question": "科学革命", "answer": "科学理论体系的根本变革", "notes": ""},
+            {"question": "技术革命", "answer": "技术体系的根本变革", "notes": ""},
+            {"question": "产业革命", "answer": "生产体系的根本变革", "notes": ""},
+            {"question": "第一次技术革命", "answer": "蒸汽机的发明和应用", "notes": ""},
+            {"question": "第二次技术革命", "answer": "电力技术的发明和应用", "notes": ""},
+            {"question": "第三次技术革命", "answer": "信息技术的发明和应用", "notes": ""},
+            {"question": "第四次工业革命", "answer": "智能化、数字化、网络化", "notes": ""},
+            {"question": "人工智能", "answer": "模拟人类智能的计算机系统", "notes": ""},
+            {"question": "大数据", "answer": "规模巨大、类型多样的数据集合", "notes": ""},
+            {"question": "云计算", "answer": "通过网络提供计算资源的服务模式", "notes": ""},
+            {"question": "物联网", "answer": "物物相连的互联网", "notes": ""},
+            {"question": "区块链", "answer": "分布式账本技术", "notes": ""},
+            {"question": "基因编辑", "answer": "对生物体基因组进行精确修饰", "notes": ""},
+            {"question": "纳米技术", "answer": "在纳米尺度上研究物质的特性和相互作用", "notes": ""},
+            {"question": "生物技术", "answer": "利用生物体或其成分制造产品的技术", "notes": ""},
+            {"question": "航天技术", "answer": "探索、开发和利用太空的技术", "notes": ""},
+            {"question": "海洋技术", "answer": "探索、开发和利用海洋的技术", "notes": ""},
+            {"question": "新能源技术", "answer": "太阳能、风能、水能、核能等可再生能源技术", "notes": ""},
+            {"question": "环境保护技术", "answer": "预防和治理环境污染的技术", "notes": ""},
+            {"question": "材料科学", "answer": "研究材料的组成、结构、性能及其相互关系", "notes": ""},
+            {"question": "信息科学", "answer": "研究信息的产生、获取、存储、处理和传递", "notes": ""},
+            {"question": "系统科学", "answer": "研究系统的一般规律和方法", "notes": ""},
+            {"question": "复杂性科学", "answer": "研究复杂系统的科学", "notes": ""},
+            {"question": "非线性科学", "answer": "研究非线性现象的科学", "notes": ""},
+            {"question": "交叉科学", "answer": "不同学科交叉融合形成的新学科", "notes": ""},
+            {"question": "边缘科学", "answer": "在学科边缘形成的新学科", "notes": ""},
+            {"question": "综合科学", "answer": "综合多学科知识的科学", "notes": ""},
+            {"question": "科学教育", "answer": "传授科学知识、培养科学素养的教育活动", "notes": ""},
+            {"question": "科学普及", "answer": "向公众传播科学知识、科学方法和科学精神", "notes": ""},
+            {"question": "科学传播", "answer": "科学信息的交流和扩散", "notes": ""},
+            {"question": "科学文化", "answer": "以科学精神为核心的文化形态", "notes": ""},
+            {"question": "科学精神", "answer": "求实、创新、怀疑、批判、合作、奉献", "notes": ""},
+            {"question": "人文精神", "answer": "对人的价值、尊严和发展的关怀", "notes": ""},
+            {"question": "科学与人文", "answer": "相互渗透、相互促进的关系", "notes": ""},
+            {"question": "科学伦理", "answer": "科学研究和应用中的道德规范", "notes": ""},
+            {"question": "技术伦理", "answer": "技术研发和应用中的道德规范", "notes": ""},
+            {"question": "工程伦理", "answer": "工程实践中的道德规范", "notes": ""},
+            {"question": "环境伦理", "answer": "人类对自然环境的道德责任", "notes": ""},
+            {"question": "生命伦理", "answer": "涉及生命科学和医学的伦理问题", "notes": ""},
+            {"question": "网络伦理", "answer": "网络空间中的道德规范", "notes": ""},
+            {"question": "人工智能伦理", "answer": "人工智能研发和应用中的伦理问题", "notes": ""},
+            {"question": "科学技术是第一生产力", "answer": "邓小平提出的重要论断", "notes": ""},
+            {"question": "创新驱动发展", "answer": "以科技创新为核心的发展战略", "notes": ""},
+            {"question": "科教兴国", "answer": "依靠科学技术和教育振兴国家", "notes": ""},
+            {"question": "人才强国", "answer": "培养和引进高素质人才的战略", "notes": ""},
+            {"question": "可持续发展", "answer": "经济、社会、环境协调发展", "notes": ""},
+            {"question": "生态文明", "answer": "人与自然和谐共生的文明形态", "notes": ""},
+            {"question": "美丽中国", "answer": "建设生态文明的目标", "notes": ""},
+            {"question": "人类命运共同体", "answer": "人类在追求本国利益时兼顾他国合理关切", "notes": ""},
+            {"question": "一带一路", "answer": "丝绸之路经济带和21世纪海上丝绸之路", "notes": ""},
+            {"question": "创新型国家", "answer": "以科技创新为核心的国家发展模式", "notes": ""},
+            {"question": "供给侧结构性改革", "answer": "从供给端入手推动经济结构调整", "notes": ""},
+            {"question": "高质量发展", "answer": "创新成为第一动力的发展", "notes": ""},
+            {"question": "新发展理念", "answer": "创新、协调、绿色、开放、共享", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技强国", "notes": ""},
+            {"question": "关键核心技术攻关", "answer": "突破制约发展的技术瓶颈", "notes": ""},
+            {"question": "基础研究", "answer": "探索自然规律的科学研究", "notes": ""},
+            {"question": "应用研究", "answer": "解决实际问题的科学研究", "notes": ""},
+            {"question": "试验发展", "answer": "将科研成果转化为产品的活动", "notes": ""},
+            {"question": "产学研结合", "answer": "企业、高校、科研机构合作创新", "notes": ""},
+            {"question": "科技成果转化", "answer": "将科技成果转化为现实生产力", "notes": ""},
+            {"question": "知识产权", "answer": "对智力成果的法律保护", "notes": ""},
+            {"question": "专利", "answer": "对发明创造的法律保护", "notes": ""},
+            {"question": "商标", "answer": "对商品或服务标志的法律保护", "notes": ""},
+            {"question": "著作权", "answer": "对文学、艺术和科学作品的法律保护", "notes": ""},
+            {"question": "技术标准", "answer": "对技术产品的规范要求", "notes": ""},
+            {"question": "科技政策", "answer": "指导科技发展的方针和措施", "notes": ""},
+            {"question": "科技体制改革", "answer": "完善科技管理体制的改革", "notes": ""},
+            {"question": "科研评价", "answer": "对科研活动的评估和考核", "notes": ""},
+            {"question": "科研诚信", "answer": "科研活动中的诚实和守信", "notes": ""},
+            {"question": "学术不端", "answer": "违反学术道德的行为", "notes": ""},
+            {"question": "科学基金", "answer": "支持科学研究的资金", "notes": ""},
+            {"question": "科技奖励", "answer": "对科技成果的表彰和奖励", "notes": ""},
+            {"question": "科学学会", "answer": "科学家的专业组织", "notes": ""},
+            {"question": "科研机构", "answer": "从事科学研究的组织", "notes": ""},
+            {"question": "高等学校", "answer": "培养人才和科学研究的机构", "notes": ""},
+            {"question": "企业研发", "answer": "企业开展的研究开发活动", "notes": ""},
+            {"question": "国家实验室", "answer": "国家设立的高水平研究机构", "notes": ""},
+            {"question": "重点实验室", "answer": "在某一领域具有优势的研究机构", "notes": ""},
+            {"question": "工程研究中心", "answer": "促进科技成果转化的机构", "notes": ""},
+            {"question": "企业技术中心", "answer": "企业内部的研发机构", "notes": ""},
+            {"question": "科技园区", "answer": "集聚创新资源的区域", "notes": ""},
+            {"question": "孵化器", "answer": "培育科技企业的机构", "notes": ""},
+            {"question": "加速器", "answer": "加速科技企业成长的机构", "notes": ""},
+            {"question": "风险投资", "answer": "支持初创企业的投资", "notes": ""},
+            {"question": "天使投资", "answer": "支持早期创业的投资", "notes": ""},
+            {"question": "创业创新", "answer": "创办新企业和开展创新活动", "notes": ""},
+            {"question": "大众创业、万众创新", "answer": "激发全社会创新活力的政策", "notes": ""},
+            {"question": "科技人才", "answer": "从事科学技术工作的人员", "notes": ""},
+            {"question": "科学家", "answer": "从事基础科学研究的人员", "notes": ""},
+            {"question": "工程师", "answer": "从事工程技术工作的人员", "notes": ""},
+            {"question": "技术人员", "answer": "从事技术应用工作的人员", "notes": ""},
+            {"question": "技能人才", "answer": "具有专门技能的人员", "notes": ""},
+            {"question": "创新人才", "answer": "具有创新能力的人才", "notes": ""},
+            {"question": "领军人才", "answer": "在某一领域具有领导作用的人才", "notes": ""},
+            {"question": "青年科技人才", "answer": "年轻的科技工作者", "notes": ""},
+            {"question": "海外高层次人才", "answer": "从国外引进的高级人才", "notes": ""},
+            {"question": "人才培养", "answer": "培养各类人才的活动", "notes": ""},
+            {"question": "人才评价", "answer": "对人才的能力和贡献进行评估", "notes": ""},
+            {"question": "人才激励", "answer": "激发人才积极性的措施", "notes": ""},
+            {"question": "人才流动", "answer": "人才在不同地区、不同单位之间的迁移", "notes": ""},
+            {"question": "人才国际化", "answer": "人才的国际交流和合作", "notes": ""},
+            {"question": "科学无国界", "answer": "科学知识是全人类的共同财富", "notes": ""},
+            {"question": "科学家有祖国", "answer": "科学家应该为祖国服务", "notes": ""},
+            {"question": "科技合作", "answer": "不同国家和地区之间的科技交流与合作", "notes": ""},
+            {"question": "科技竞争", "answer": "国家之间在科技领域的竞争", "notes": ""},
+            {"question": "科技安全", "answer": "保障国家科技发展的安全", "notes": ""},
+            {"question": "科技霸权", "answer": "利用科技优势压制其他国家", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技发展", "notes": ""},
+            {"question": "关键核心技术", "answer": "关系国家安全和发展全局的技术", "notes": ""},
+            {"question": "卡脖子技术", "answer": "受制于人的关键技术", "notes": ""},
+            {"question": "原创性突破", "answer": "具有自主知识产权的重大创新", "notes": ""},
+            {"question": "颠覆性技术", "answer": "改变现有技术体系的创新", "notes": ""},
+            {"question": "前沿技术", "answer": "引领未来发展的技术", "notes": ""},
+            {"question": "战略性新兴产业", "answer": "具有战略意义的新兴产业", "notes": ""},
+            {"question": "传统产业升级", "answer": "运用新技术改造传统产业", "notes": ""},
+            {"question": "数字经济", "answer": "以数据为关键要素的经济形态", "notes": ""},
+            {"question": "平台经济", "answer": "基于平台的经济模式", "notes": ""},
+            {"question": "共享经济", "answer": "资源共享的经济模式", "notes": ""},
+            {"question": "绿色经济", "answer": "注重环境保护的经济模式", "notes": ""},
+            {"question": "循环经济", "answer": "资源循环利用的经济模式", "notes": ""},
+            {"question": "低碳经济", "answer": "减少碳排放的经济模式", "notes": ""},
+            {"question": "生态文明", "answer": "人与自然和谐共生的文明形态", "notes": ""},
+            {"question": "美丽中国", "answer": "生态文明建设的目标", "notes": ""},
+            {"question": "碳达峰", "answer": "二氧化碳排放达到峰值后逐步下降", "notes": ""},
+            {"question": "碳中和", "answer": "二氧化碳排放量与吸收量达到平衡", "notes": ""},
+            {"question": "气候变化", "answer": "全球气候系统的变化", "notes": ""},
+            {"question": "全球变暖", "answer": "地球表面温度上升的现象", "notes": ""},
+            {"question": "温室效应", "answer": "大气中温室气体导致的保温效应", "notes": ""},
+            {"question": "《巴黎协定》", "answer": "应对气候变化的国际协议", "notes": ""},
+            {"question": "可持续发展目标", "answer": "联合国制定的全球发展目标", "notes": ""},
+            {"question": "人类命运共同体", "answer": "人类在追求本国利益时兼顾他国合理关切", "notes": ""},
+            {"question": "一带一路", "answer": "丝绸之路经济带和21世纪海上丝绸之路", "notes": ""},
+            {"question": "创新型国家", "answer": "以科技创新为核心的国家发展模式", "notes": ""},
+            {"question": "供给侧结构性改革", "answer": "从供给端入手推动经济结构调整", "notes": ""},
+            {"question": "高质量发展", "answer": "创新成为第一动力的发展", "notes": ""},
+            {"question": "新发展理念", "answer": "创新、协调、绿色、开放、共享", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技强国", "notes": ""},
+            {"question": "关键核心技术攻关", "answer": "突破制约发展的技术瓶颈", "notes": ""},
+            {"question": "基础研究", "answer": "探索自然规律的科学研究", "notes": ""},
+            {"question": "应用研究", "answer": "解决实际问题的科学研究", "notes": ""},
+            {"question": "试验发展", "answer": "将科研成果转化为产品的活动", "notes": ""},
+            {"question": "产学研结合", "answer": "企业、高校、科研机构合作创新", "notes": ""},
+            {"question": "科技成果转化", "answer": "将科技成果转化为现实生产力", "notes": ""},
+            {"question": "知识产权", "answer": "对智力成果的法律保护", "notes": ""},
+            {"question": "专利", "answer": "对发明创造的法律保护", "notes": ""},
+            {"question": "商标", "answer": "对商品或服务标志的法律保护", "notes": ""},
+            {"question": "著作权", "answer": "对文学、艺术和科学作品的法律保护", "notes": ""},
+            {"question": "技术标准", "answer": "对技术产品的规范要求", "notes": ""},
+            {"question": "科技政策", "answer": "指导科技发展的方针和措施", "notes": ""},
+            {"question": "科技体制改革", "answer": "完善科技管理体制的改革", "notes": ""},
+            {"question": "科研评价", "answer": "对科研活动的评估和考核", "notes": ""},
+            {"question": "科研诚信", "answer": "科研活动中的诚实和守信", "notes": ""},
+            {"question": "学术不端", "answer": "违反学术道德的行为", "notes": ""},
+            {"question": "科学基金", "answer": "支持科学研究的资金", "notes": ""},
+            {"question": "科技奖励", "answer": "对科技成果的表彰和奖励", "notes": ""},
+            {"question": "科学学会", "answer": "科学家的专业组织", "notes": ""},
+            {"question": "科研机构", "answer": "从事科学研究的组织", "notes": ""},
+            {"question": "高等学校", "answer": "培养人才和科学研究的机构", "notes": ""},
+            {"question": "企业研发", "answer": "企业开展的研究开发活动", "notes": ""},
+            {"question": "国家实验室", "answer": "国家设立的高水平研究机构", "notes": ""},
+            {"question": "重点实验室", "answer": "在某一领域具有优势的研究机构", "notes": ""},
+            {"question": "工程研究中心", "answer": "促进科技成果转化的机构", "notes": ""},
+            {"question": "企业技术中心", "answer": "企业内部的研发机构", "notes": ""},
+            {"question": "科技园区", "answer": "集聚创新资源的区域", "notes": ""},
+            {"question": "孵化器", "answer": "培育科技企业的机构", "notes": ""},
+            {"question": "加速器", "answer": "加速科技企业成长的机构", "notes": ""},
+            {"question": "风险投资", "answer": "支持初创企业的投资", "notes": ""},
+            {"question": "天使投资", "answer": "支持早期创业的投资", "notes": ""},
+            {"question": "创业创新", "answer": "创办新企业和开展创新活动", "notes": ""},
+            {"question": "大众创业、万众创新", "answer": "激发全社会创新活力的政策", "notes": ""},
+            {"question": "科技人才", "answer": "从事科学技术工作的人员", "notes": ""},
+            {"question": "科学家", "answer": "从事基础科学研究的人员", "notes": ""},
+            {"question": "工程师", "answer": "从事工程技术工作的人员", "notes": ""},
+            {"question": "技术人员", "answer": "从事技术应用工作的人员", "notes": ""},
+            {"question": "技能人才", "answer": "具有专门技能的人员", "notes": ""},
+            {"question": "创新人才", "answer": "具有创新能力的人才", "notes": ""},
+            {"question": "领军人才", "answer": "在某一领域具有领导作用的人才", "notes": ""},
+            {"question": "青年科技人才", "answer": "年轻的科技工作者", "notes": ""},
+            {"question": "海外高层次人才", "answer": "从国外引进的高级人才", "notes": ""},
+            {"question": "人才培养", "answer": "培养各类人才的活动", "notes": ""},
+            {"question": "人才评价", "answer": "对人才的能力和贡献进行评估", "notes": ""},
+            {"question": "人才激励", "answer": "激发人才积极性的措施", "notes": ""},
+            {"question": "人才流动", "answer": "人才在不同地区、不同单位之间的迁移", "notes": ""},
+            {"question": "人才国际化", "answer": "人才的国际交流和合作", "notes": ""},
+            {"question": "科学无国界", "answer": "科学知识是全人类的共同财富", "notes": ""},
+            {"question": "科学家有祖国", "answer": "科学家应该为祖国服务", "notes": ""},
+            {"question": "科技合作", "answer": "不同国家和地区之间的科技交流与合作", "notes": ""},
+            {"question": "科技竞争", "answer": "国家之间在科技领域的竞争", "notes": ""},
+            {"question": "科技安全", "answer": "保障国家科技发展的安全", "notes": ""},
+            {"question": "科技霸权", "answer": "利用科技优势压制其他国家", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技发展", "notes": ""},
+            {"question": "关键核心技术", "answer": "关系国家安全和发展全局的技术", "notes": ""},
+            {"question": "卡脖子技术", "answer": "受制于人的关键技术", "notes": ""},
+            {"question": "原创性突破", "answer": "具有自主知识产权的重大创新", "notes": ""},
+            {"question": "颠覆性技术", "answer": "改变现有技术体系的创新", "notes": ""},
+            {"question": "前沿技术", "answer": "引领未来发展的技术", "notes": ""},
+            {"question": "战略性新兴产业", "answer": "具有战略意义的新兴产业", "notes": ""},
+            {"question": "传统产业升级", "answer": "运用新技术改造传统产业", "notes": ""},
+            {"question": "数字经济", "answer": "以数据为关键要素的经济形态", "notes": ""},
+            {"question": "平台经济", "answer": "基于平台的经济模式", "notes": ""},
+            {"question": "共享经济", "answer": "资源共享的经济模式", "notes": ""},
+            {"question": "绿色经济", "answer": "注重环境保护的经济模式", "notes": ""},
+            {"question": "循环经济", "answer": "资源循环利用的经济模式", "notes": ""},
+            {"question": "低碳经济", "answer": "减少碳排放的经济模式", "notes": ""},
+            {"question": "生态文明", "answer": "人与自然和谐共生的文明形态", "notes": ""},
+            {"question": "美丽中国", "answer": "生态文明建设的目标", "notes": ""},
+            {"question": "碳达峰", "answer": "二氧化碳排放达到峰值后逐步下降", "notes": ""},
+            {"question": "碳中和", "answer": "二氧化碳排放量与吸收量达到平衡", "notes": ""},
+            {"question": "气候变化", "answer": "全球气候系统的变化", "notes": ""},
+            {"question": "全球变暖", "answer": "地球表面温度上升的现象", "notes": ""},
+            {"question": "温室效应", "answer": "大气中温室气体导致的保温效应", "notes": ""},
+            {"question": "《巴黎协定》", "answer": "应对气候变化的国际协议", "notes": ""},
+            {"question": "可持续发展目标", "answer": "联合国制定的全球发展目标", "notes": ""},
+            {"question": "人类命运共同体", "answer": "人类在追求本国利益时兼顾他国合理关切", "notes": ""},
+            {"question": "整体论", "answer": "整体不可分性，自然界是一个系统整体，内部要素间及其与环境存在相互联系和作用 ", "notes": ""},
+            {"question": "还原论", "answer": "将整体分解为部分来研究 ", "notes": ""},
+            {"question": "归纳法", "answer": "从个别到一般 ", "notes": ""},
+            {"question": "演绎法", "answer": "从一般到个别 ", "notes": ""},
+            {"question": "机械论自然观", "answer": "将自然界视为机器，否定偶然性 ", "notes": ""},
+            {"question": "辩证唯物主义自然观", "answer": "联系、发展、矛盾的观点 ", "notes": ""},
+            {"question": "系统论", "answer": "整体性、层次性、开放性、动态性 ", "notes": ""},
+            {"question": "控制论", "answer": "研究系统的控制和调节 ", "notes": ""},
+            {"question": "信息论", "answer": "研究信息的传递和处理 ", "notes": ""},
+            {"question": "耗散结构理论", "answer": "远离平衡态的开放系统通过与外界交换物质和能量形成稳定有序的结构 ", "notes": ""},
+            {"question": "协同学", "answer": "研究系统中各要素之间的协同作用 ", "notes": ""},
+            {"question": "突变论", "answer": "研究系统的突然变化 ", "notes": ""},
+            {"question": "混沌理论", "answer": "研究非线性系统的复杂行为 ", "notes": ""},
+            {"question": "分形理论", "answer": "研究具有自相似性的几何形态 ", "notes": ""},
+            {"question": "超循环理论", "answer": "研究生命起源的自组织理论 ", "notes": ""},
+            {"question": "自组织理论", "answer": "研究系统如何自发形成有序结构 ", "notes": ""},
+            {"question": "非线性科学", "answer": "研究非线性系统的科学 ", "notes": ""},
+            {"question": "复杂性科学", "answer": "研究复杂系统的科学 ", "notes": ""},
+            {"question": "科学事实", "answer": "通过观察和实验获得的经验事实 ", "notes": ""},
+            {"question": "科学概念", "answer": "对事物本质属性的概括 ", "notes": ""},
+            {"question": "科学定律", "answer": "描述自然现象之间必然联系的规律 ", "notes": ""},
+            {"question": "科学假说", "answer": "对自然现象的试探性解释 ", "notes": ""},
+            {"question": "科学理论", "answer": "系统化的科学知识体系 ", "notes": ""},
+            {"question": "科学革命", "answer": "科学理论体系的根本变革 ", "notes": ""},
+            {"question": "范式", "answer": "科学共同体公认的理论框架 ", "notes": ""},
+            {"question": "科学研究纲领", "answer": "硬核、保护带、正面启发法、反面启发法 ", "notes": ""},
+            {"question": "科学划界", "answer": "区分科学与非科学的标准 ", "notes": ""},
+            {"question": "可证伪性", "answer": "科学理论必须能够被证伪 ", "notes": ""},
+            {"question": "科学合理性", "answer": "科学研究的合理性标准 ", "notes": ""},
+            {"question": "科学实在论", "answer": "科学理论描述客观实在 ", "notes": ""},
+            {"question": "科学反实在论", "answer": "科学理论是工具而非对实在的描述 ", "notes": ""},
+            {"question": "科学社会史", "answer": "研究科学与社会的相互关系 ", "notes": ""},
+            {"question": "科学思想史", "answer": "研究科学思想的发展历程 ", "notes": ""},
+            {"question": "科学计量学", "answer": "运用数学方法研究科学发展 ", "notes": ""},
+            {"question": "科学哲学", "answer": "研究科学的本质和方法 ", "notes": ""},
+            {"question": "技术哲学", "answer": "研究技术的本质和价值 ", "notes": ""},
+            {"question": "工程哲学", "answer": "研究工程的本质和意义 ", "notes": ""},
+            {"question": "科学伦理学", "answer": "研究科学研究中的伦理问题 ", "notes": ""},
+            {"question": "技术伦理学", "answer": "研究技术应用中的伦理问题 ", "notes": ""},
+            {"question": "工程伦理学", "answer": "研究工程实践中的伦理问题 ", "notes": ""},
+            {"question": "环境伦理学", "answer": "研究人类与环境的道德关系 ", "notes": ""},
+            {"question": "生命伦理学", "answer": "研究生命科学和医学中的伦理问题 ", "notes": ""},
+            {"question": "科技美学", "answer": "研究科技活动中的审美问题 ", "notes": ""},
+            {"question": "科技文化", "answer": "以科技为核心的文化形态 ", "notes": ""},
+            {"question": "科学精神", "answer": "求实、创新、怀疑、批判、合作、奉献 ", "notes": ""},
+            {"question": "人文精神", "answer": "对人的价值、尊严和发展的关怀 ", "notes": ""},
+            {"question": "科学与人文", "answer": "相互渗透、相互促进的关系 ", "notes": ""},
+            {"question": "科学传播", "answer": "科学知识的普及和推广 ", "notes": ""},
+            {"question": "科学教育", "answer": "培养科学素养的教育活动 ", "notes": ""},
+            {"question": "科普创作", "answer": "创作科普作品的活动 ", "notes": ""},
+            {"question": "科技政策", "answer": "指导科技发展的方针和措施 ", "notes": ""},
+            {"question": "科技战略", "answer": "科技发展的长远规划 ", "notes": ""},
+            {"question": "科技体制", "answer": "科技管理的制度安排 ", "notes": ""},
+            {"question": "科技投入", "answer": "对科技活动的资金支持 ", "notes": ""},
+            {"question": "科技产出", "answer": "科技活动的成果 ", "notes": ""},
+            {"question": "科技评价", "answer": "对科技活动的评估 ", "notes": ""},
+            {"question": "科技奖励", "answer": "对科技成果的表彰 ", "notes": ""},
+            {"question": "知识产权", "answer": "对智力成果的法律保护 ", "notes": ""},
+            {"question": "技术转移", "answer": "技术成果的传播和应用 ", "notes": ""},
+            {"question": "产学研合作", "answer": "企业、高校、科研机构的合作 ", "notes": ""},
+            {"question": "科技园区", "answer": "集聚创新资源的区域 ", "notes": ""},
+            {"question": "创新体系", "answer": "国家创新的系统安排 ", "notes": ""},
+            {"question": "国家创新体系", "answer": "国家层面的创新系统 ", "notes": ""},
+            {"question": "区域创新体系", "answer": "区域层面的创新系统 ", "notes": ""},
+            {"question": "企业创新体系", "answer": "企业层面的创新系统 ", "notes": ""},
+            {"question": "创新驱动发展", "answer": "以创新为核心的发展战略 ", "notes": ""},
+            {"question": "科教兴国", "answer": "依靠科技和教育振兴国家 ", "notes": ""},
+            {"question": "人才强国", "answer": "依靠人才实现国家强盛 ", "notes": ""},
+            {"question": "可持续发展", "answer": "经济、社会、环境协调发展 ", "notes": ""},
+            {"question": "生态文明", "answer": "人与自然和谐共生的文明形态 ", "notes": ""},
+            {"question": "美丽中国", "answer": "生态文明建设的目标 ", "notes": ""},
+            {"question": "人类命运共同体", "answer": "人类在追求本国利益时兼顾他国合理关切 ", "notes": ""},
+            {"question": "一带一路", "answer": "丝绸之路经济带和21世纪海上丝绸之路 ", "notes": ""},
+            {"question": "创新型国家", "answer": "以创新为核心的国家发展模式 ", "notes": ""},
+            {"question": "供给侧结构性改革", "answer": "从供给端推动经济结构调整 ", "notes": ""},
+            {"question": "高质量发展", "answer": "创新成为第一动力的发展 ", "notes": ""},
+            {"question": "新发展理念", "answer": "创新、协调、绿色、开放、共享 ", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技发展 ", "notes": ""},
+            {"question": "关键核心技术攻关", "answer": "突破制约发展的技术瓶颈 ", "notes": ""},
+            {"question": "基础研究", "answer": "探索自然规律的科学研究 ", "notes": ""},
+            {"question": "应用研究", "answer": "解决实际问题的科学研究 ", "notes": ""},
+            {"question": "试验发展", "answer": "将科研成果转化为产品的活动 ", "notes": ""},
+            {"question": "产学研结合", "answer": "企业、高校、科研机构合作创新 ", "notes": ""},
+            {"question": "科技成果转化", "answer": "将科技成果转化为现实生产力 ", "notes": ""},
+            {"question": "知识产权", "answer": "对智力成果的法律保护 ", "notes": ""},
+            {"question": "专利", "answer": "对发明创造的法律保护 ", "notes": ""},
+            {"question": "商标", "answer": "对商品或服务标志的法律保护 ", "notes": ""},
+            {"question": "著作权", "answer": "对文学、艺术和科学作品的法律保护 ", "notes": ""},
+            {"question": "技术标准", "answer": "对技术产品的规范要求 ", "notes": ""},
+            {"question": "科技政策", "answer": "指导科技发展的方针和措施 ", "notes": ""},
+            {"question": "科技体制改革", "answer": "完善科技管理体制的改革 ", "notes": ""},
+            {"question": "科研评价", "answer": "对科研活动的评估和考核 ", "notes": ""},
+            {"question": "科研诚信", "answer": "科研活动中的诚实和守信 ", "notes": ""},
+            {"question": "学术不端", "answer": "违反学术道德的行为 ", "notes": ""},
+            {"question": "科学基金", "answer": "支持科学研究的资金 ", "notes": ""},
+            {"question": "科技奖励", "answer": "对科技成果的表彰和奖励 ", "notes": ""},
+            {"question": "科学学会", "answer": "科学家的专业组织 ", "notes": ""},
+            {"question": "科研机构", "answer": "从事科学研究的组织 ", "notes": ""},
+            {"question": "高等学校", "answer": "培养人才和科学研究的机构 ", "notes": ""},
+            {"question": "企业研发", "answer": "企业开展的研究开发活动 ", "notes": ""},
+            {"question": "国家实验室", "answer": "国家设立的高水平研究机构 ", "notes": ""},
+            {"question": "重点实验室", "answer": "在某一领域具有优势的研究机构 ", "notes": ""},
+            {"question": "工程研究中心", "answer": "促进科技成果转化的机构 ", "notes": ""},
+            {"question": "企业技术中心", "answer": "企业内部的研发机构 ", "notes": ""},
+            {"question": "科技园区", "answer": "集聚创新资源的区域 ", "notes": ""},
+            {"question": "孵化器", "answer": "培育科技企业的机构 ", "notes": ""},
+            {"question": "加速器", "answer": "加速科技企业成长的机构 ", "notes": ""},
+            {"question": "风险投资", "answer": "支持初创企业的投资 ", "notes": ""},
+            {"question": "天使投资", "answer": "支持早期创业的投资 ", "notes": ""},
+            {"question": "创业创新", "answer": "创办新企业和开展创新活动 ", "notes": ""},
+            {"question": "大众创业、万众创新", "answer": "激发全社会创新活力的政策 ", "notes": ""},
+            {"question": "科技人才", "answer": "从事科学技术工作的人员 ", "notes": ""},
+            {"question": "科学家", "answer": "从事基础科学研究的人员 ", "notes": ""},
+            {"question": "工程师", "answer": "从事工程技术工作的人员 ", "notes": ""},
+            {"question": "技术人员", "answer": "从事技术应用工作的人员 ", "notes": ""},
+            {"question": "技能人才", "answer": "具有专门技能的人员 ", "notes": ""},
+            {"question": "创新人才", "answer": "具有创新能力的人才 ", "notes": ""},
+            {"question": "领军人才", "answer": "在某一领域具有领导作用的人才 ", "notes": ""},
+            {"question": "青年科技人才", "answer": "年轻的科技工作者 ", "notes": ""},
+            {"question": "海外高层次人才", "answer": "从国外引进的高级人才 ", "notes": ""},
+            {"question": "人才培养", "answer": "培养各类人才的活动 ", "notes": ""},
+            {"question": "人才评价", "answer": "对人才的能力和贡献进行评估 ", "notes": ""},
+            {"question": "人才激励", "answer": "激发人才积极性的措施 ", "notes": ""},
+            {"question": "人才流动", "answer": "人才在不同地区、不同单位之间的迁移 ", "notes": ""},
+            {"question": "人才国际化", "answer": "人才的国际交流和合作 ", "notes": ""},
+            {"question": "科学无国界", "answer": "科学知识是全人类的共同财富 ", "notes": ""},
+            {"question": "科学家有祖国", "answer": "科学家应该为祖国服务 ", "notes": ""},
+            {"question": "科技合作", "answer": "不同国家和地区之间的科技交流与合作 ", "notes": ""},
+            {"question": "科技竞争", "answer": "国家之间在科技领域的竞争 ", "notes": ""},
+            {"question": "科技安全", "answer": "保障国家科技发展的安全 ", "notes": ""},
+            {"question": "科技霸权", "answer": "利用科技优势压制其他国家 ", "notes": ""},
+            {"question": "科技自立自强", "answer": "依靠自主创新实现科技发展 ", "notes": ""},
+            {"question": "关键核心技术", "answer": "关系国家安全和发展全局的技术 ", "notes": ""},
+            {"question": "卡脖子技术", "answer": "受制于人的关键技术 ", "notes": ""},
+            {"question": "原创性突破", "answer": "具有自主知识产权的重大创新 ", "notes": ""},
+            {"question": "颠覆性技术", "answer": "改变现有技术体系的创新 ", "notes": ""},
+            {"question": "前沿技术", "answer": "引领未来发展的技术 ", "notes": ""},
+            {"question": "战略性新兴产业", "answer": "具有战略意义的新兴产业 ", "notes": ""},
+            {"question": "传统产业升级", "answer": "运用新技术改造传统产业 ", "notes": ""},
+            {"question": "数字经济", "answer": "以数据为关键要素的经济形态 ", "notes": ""},
+            {"question": "平台经济", "answer": "基于平台的经济模式 ", "notes": ""},
+            {"question": "共享经济", "answer": "资源共享的经济模式 ", "notes": ""},
+            {"question": "绿色经济", "answer": "注重环境保护的经济模式 ", "notes": ""},
+            {"question": "循环经济", "answer": "资源循环利用的经济模式 ", "notes": ""},
+            {"question": "低碳经济", "answer": "减少碳排放的经济模式 ", "notes": ""},
+            {"question": "生态文明", "answer": "人与自然和谐共生的文明形态 ", "notes": ""},
+            {"question": "美丽中国", "answer": "生态文明建设的目标 ", "notes": ""},
+            {"question": "碳达峰", "answer": "二氧化碳排放达到峰值后逐步下降 ", "notes": ""},
+            {"question": "碳中和", "answer": "二氧化碳排放量与吸收量达到平衡 ", "notes": ""},
+            {"question": "气候变化", "answer": "全球气候系统的变化 ", "notes": ""},
+            {"question": "全球变暖", "answer": "地球表面温度上升的现象 ", "notes": ""},
+            {"question": "温室效应", "answer": "大气中温室气体导致的保温效应 ", "notes": ""},
+            {"question": "《巴黎协定》", "answer": "应对气候变化的国际协议 ", "notes": ""},
+            {"question": "可持续发展目标", "answer": "联合国制定的全球发展目标 ", "notes": ""},
+            {"question": "人类命运共同体", "answer": "人类在追求本国利益时兼顾他国合理关切 ", "notes": ""}
+        ];
+
+        // 全局变量
+        let currentIndex = 0;
+        let reviewedItems = [];
+        let remainingItems = [...reviewData];
+        let reviewHistory = [];
+        let correctCount = 0;
+        let wrongCount = 0;
+        let reviewMode = 'random'; // 'random' or 'sequential'
+    </script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
+    <!-- 头部导航 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-brain text-2xl text-blue-600 mr-3"></i>
+                    <h1 class="text-xl font-bold text-gray-800">自然辩证法复习助手</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="modeToggle" class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors">
+                        <i class="fas fa-random mr-1"></i> 随机模式
+                    </button>
+                    <button id="statsButton" class="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-chart-pie mr-1"></i> 统计
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 进度条 -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>复习进度</span>
+                <span id="progressText">0/137</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- 复习卡片 -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden mb-8 transform transition-all duration-500 hover:shadow-2xl">
+            <div class="p-6">
+                <!-- 问题区域 -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-600 mb-2">
+                        <i class="fas fa-question-circle text-blue-500 mr-2"></i>问题
+                    </h2>
+                    <div id="questionCard" class="bg-blue-50 rounded-lg p-4 text-lg font-medium text-gray-800 min-h-[80px] flex items-center justify-center">
+                        点击"开始复习"按钮开始
+                    </div>
+                </div>
+
+                <!-- 答案区域 (默认隐藏) -->
+                <div id="answerSection" class="mb-6 hidden">
+                    <h2 class="text-lg font-semibold text-gray-600 mb-2">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>答案
+                    </h2>
+                    <div id="answerCard" class="bg-green-50 rounded-lg p-4 text-lg font-medium text-gray-800 min-h-[80px]">
+                    </div>
+                </div>
+
+                <!-- 备注区域 (默认隐藏) -->
+                <div id="notesSection" class="mb-6 hidden">
+                    <h2 class="text-lg font-semibold text-gray-600 mb-2">
+                        <i class="fas fa-sticky-note text-purple-500 mr-2"></i>备注
+                    </h2>
+                    <div id="notesCard" class="bg-purple-50 rounded-lg p-4 text-gray-700">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 按钮区域 -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between">
+                <button id="showAnswerBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+                    <i class="fas fa-eye mr-2"></i>显示答案
+                </button>
+                <div class="flex space-x-2">
+                    <button id="wrongBtn" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors flex items-center">
+                        <i class="fas fa-times mr-2"></i>记错了
+                    </button>
+                    <button id="correctBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors flex items-center">
+                        <i class="fas fa-check mr-2"></i>记住了
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="prevBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <i class="fas fa-arrow-left mr-2"></i>上一题
+            </button>
+            <button id="startBtn" class="px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+                <i class="fas fa-play mr-2"></i>开始复习
+            </button>
+            <button id="nextBtn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                下一题<i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- 统计面板 (默认隐藏) -->
+        <div id="statsPanel" class="bg-white rounded-xl shadow-xl p-6 hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-chart-pie text-blue-600 mr-2"></i>复习统计
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-blue-50 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-blue-600" id="totalCount">0</div>
+                    <div class="text-sm text-gray-600">总复习数</div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-green-600" id="correctCount">0</div>
+                    <div class="text-sm text-gray-600">记住的</div>
+                </div>
+                <div class="bg-red-50 rounded-lg p-4 text-center">
+                    <div class="text-2xl font-bold text-red-600" id="wrongCount">0</div>
+                    <div class="text-sm text-gray-600">记错的</div>
+                </div>
+            </div>
+            <div class="mb-6">
+                <canvas id="reviewChart" width="400" height="200"></canvas>
+            </div>
+            <div class="text-center">
+                <button id="closeStatsBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">
+                    关闭统计
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white shadow-inner py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600">
+            <p>自然辩证法复习助手 &copy; 2024 | 共收录 137 个知识点</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM元素
+        const startBtn = document.getElementById('startBtn');
+        const showAnswerBtn = document.getElementById('showAnswerBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const correctBtn = document.getElementById('correctBtn');
+        const wrongBtn = document.getElementById('wrongBtn');
+        const questionCard = document.getElementById('questionCard');
+        const answerCard = document.getElementById('answerCard');
+        const notesCard = document.getElementById('notesCard');
+        const answerSection = document.getElementById('answerSection');
+        const notesSection = document.getElementById('notesSection');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const modeToggle = document.getElementById('modeToggle');
+        const statsButton = document.getElementById('statsButton');
+        const statsPanel = document.getElementById('statsPanel');
+        const closeStatsBtn = document.getElementById('closeStatsBtn');
+        const totalCount = document.getElementById('totalCount');
+        const correctCountEl = document.getElementById('correctCount');
+        const wrongCountEl = document.getElementById('wrongCount');
+
+        // 初始化图表
+        let reviewChart;
+        function initChart() {
+            const ctx = document.getElementById('reviewChart').getContext('2d');
+            reviewChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['记住的', '记错的', '未复习'],
+                    datasets: [{
+                        data: [0, 0, reviewData.length],
+                        backgroundColor: [
+                            '#10B981', // 绿色 - 记住的
+                            '#EF4444', // 红色 - 记错的
+                            '#E5E7EB'  // 灰色 - 未复习
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 更新图表
+        function updateChart() {
+            const reviewed = correctCount + wrongCount;
+            const remaining = reviewData.length - reviewed;
+            
+            reviewChart.data.datasets[0].data = [correctCount, wrongCount, remaining];
+            reviewChart.update();
+            
+            totalCount.textContent = reviewed;
+            correctCountEl.textContent = correctCount;
+            wrongCountEl.textContent = wrongCount;
+        }
+
+        // 显示统计面板
+        function showStats() {
+            statsPanel.classList.remove('hidden');
+            updateChart();
+        }
+
+        // 隐藏统计面板
+        function hideStats() {
+            statsPanel.classList.add('hidden');
+        }
+
+        // 切换复习模式
+        function toggleMode() {
+            reviewMode = reviewMode === 'random' ? 'sequential' : 'random';
+            modeToggle.innerHTML = reviewMode === 'random' 
+                ? '<i class="fas fa-random mr-1"></i> 随机模式' 
+                : '<i class="fas fa-list mr-1"></i> 顺序模式';
+            
+            // 重置复习状态
+            resetReview();
+        }
+
+        // 重置复习
+        function resetReview() {
+            reviewedItems = [];
+            remainingItems = [...reviewData];
+            reviewHistory = [];
+            currentIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            
+            updateProgress();
+            questionCard.textContent = '点击"开始复习"按钮开始';
+            answerSection.classList.add('hidden');
+            notesSection.classList.add('hidden');
+            
+            nextBtn.disabled = true;
+            prevBtn.disabled = true;
+            correctBtn.disabled = true;
+            wrongBtn.disabled = true;
+            
+            startBtn.classList.remove('hidden');
+        }
+
+        // 更新进度
+        function updateProgress() {
+            const progress = (reviewedItems.length / reviewData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${reviewedItems.length}/${reviewData.length}`;
+        }
+
+        // 获取下一个问题
+        function getNextQuestion() {
+            if (remainingItems.length === 0) {
+                questionCard.textContent = '恭喜您完成了所有复习内容！';
+                answerSection.classList.add('hidden');
+                notesSection.classList.add('hidden');
+                nextBtn.disabled = true;
+                showAnswerBtn.disabled = true;
+                correctBtn.disabled = true;
+                wrongBtn.disabled = true;
+                return null;
+            }
+
+            let nextItem;
+            if (reviewMode === 'random') {
+                // 随机模式
+                const randomIndex = Math.floor(Math.random() * remainingItems.length);
+                nextItem = remainingItems[randomIndex];
+                remainingItems.splice(randomIndex, 1);
+            } else {
+                // 顺序模式
+                nextItem = remainingItems[0];
+                remainingItems.shift();
+            }
+
+            reviewHistory.push(nextItem);
+            currentIndex = reviewHistory.length - 1;
+            
+            return nextItem;
+        }
+
+        // 显示问题
+        function showQuestion(item) {
+            if (!item) return;
+            
+            questionCard.textContent = item.question;
+            answerCard.textContent = item.answer;
+            
+            if (item.notes && item.notes.trim() !== '') {
+                notesCard.textContent = item.notes.trim();
+                notesSection.classList.remove('hidden');
+            } else {
+                notesSection.classList.add('hidden');
+            }
+            
+            answerSection.classList.add('hidden');
+            showAnswerBtn.disabled = false;
+            correctBtn.disabled = true;
+            wrongBtn.disabled = true;
+            
+            // 更新按钮状态
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === reviewHistory.length - 1 && remainingItems.length === 0;
+        }
+
+        // 显示答案
+        function showAnswer() {
+            answerSection.classList.remove('hidden');
+            showAnswerBtn.disabled = true;
+            correctBtn.disabled = false;
+            wrongBtn.disabled = false;
+        }
+
+        // 处理记住了
+        function handleCorrect() {
+            const currentItem = reviewHistory[currentIndex];
+            reviewedItems.push({...currentItem, result: 'correct'});
+            correctCount++;
+            
+            updateProgress();
+            moveToNextQuestion();
+        }
+
+        // 处理记错了
+        function handleWrong() {
+            const currentItem = reviewHistory[currentIndex];
+            reviewedItems.push({...currentItem, result: 'wrong'});
+            wrongCount++;
+            
+            // 将记错的题目重新加入待复习列表
+            remainingItems.push(currentItem);
+            
+            updateProgress();
+            moveToNextQuestion();
+        }
+
+        // 移动到下一个问题
+        function moveToNextQuestion() {
+            const nextItem = getNextQuestion();
+            if (nextItem) {
+                showQuestion(nextItem);
+            }
+        }
+
+        // 移动到上一个问题
+        function moveToPrevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                const prevItem = reviewHistory[currentIndex];
+                showQuestion(prevItem);
+            }
+        }
+
+        // 开始复习
+        function startReview() {
+            startBtn.classList.add('hidden');
+            moveToNextQuestion();
+        }
+
+        // 事件监听
+        startBtn.addEventListener('click', startReview);
+        showAnswerBtn.addEventListener('click', showAnswer);
+        nextBtn.addEventListener('click', moveToNextQuestion);
+        prevBtn.addEventListener('click', moveToPrevQuestion);
+        correctBtn.addEventListener('click', handleCorrect);
+        wrongBtn.addEventListener('click', handleWrong);
+        modeToggle.addEventListener('click', toggleMode);
+        statsButton.addEventListener('click', showStats);
+        closeStatsBtn.addEventListener('click', hideStats);
+
+        // 初始化
+        window.addEventListener('load', function() {
+            initChart();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
